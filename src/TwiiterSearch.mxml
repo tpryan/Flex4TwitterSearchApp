@@ -1,9 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
-			   xmlns:mx="library://ns.adobe.com/flex/mx">
+			   xmlns:mx="library://ns.adobe.com/flex/mx" backgroundColor="#312B2B" width="400" xmlns:twitter="services.twitter.*">
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			
+			protected function doSearch():void
+			{
+				searchResult.token = twitter.search(q.text);
+			}
+			
+
+			protected function qButton_clickHandler(event:MouseEvent):void
+			{
+				doSearch();
+			}
+
+
+			protected function q_enterHandler(event:FlexEvent):void
+			{
+				doSearch();
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:CallResponder id="searchResult"/>
+		<s:CallResponder id="searchResult2"/>
+		<twitter:Twitter id="twitter" fault="Alert.show(event.fault.faultString + '\n' + event.fault.faultDetail)" showBusyCursor="true"/>
+	</fx:Declarations>
+	<s:TextInput top="10" left="10" right="88" id="q" enter="q_enterHandler(event)"/>
+	<s:Button label="Search" right="10" top="10" id="qButton" click="qButton_clickHandler(event)"/>
+	<s:List top="40" left="10" right="10" bottom="10" id="displayTweets" labelField="title" itemRenderer="tweet">
+		<s:AsyncListView list="{searchResult.lastResult}"/>
+	</s:List>
 	<!-- I can never remember the API URL
-	http://search.twitter.com/search.json
+	http://search.twitter.com/search.atom
 	-->
 	
 </s:Application>
