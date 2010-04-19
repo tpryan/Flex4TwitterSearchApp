@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="test.ant" name="TwitterSearch" basedir=".">
+	
+	
+	<target name="test.ant" description="Exports the script of the database ">
+		<echo message="Testing ant in this environment. " />
+	</target>
+	
+	<target name="reset" description="Resets back to default state">
+		
+		<echo message="${basedir}" />
+		<echo message="Deleting key flex thingies" />
+		
+		
+		<delete failonerror="false" dir="services"/>
+		<delete failonerror="false" dir=".model/"/>
+		<delete failonerror="false" dir="src/services"/>
+		<delete failonerror="false" dir="src/tweet.mxml"/>
+		<delete failonerror="false" dir="src/valueObjects"/>
+		
+		
+		
+		<echo message="Resetting ${ant.project.name} local code from git" />
+		<exec executable="/usr/local/git/bin/git" spawn="false">
+			<arg line="reset"/>
+			<arg line="--hard"/>
+		</exec>
+		
+	</target>
+	
+</project>	
